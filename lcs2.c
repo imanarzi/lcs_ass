@@ -8,9 +8,45 @@ void print_array(int *arr, int size){
 	printf("\n");
 }
 
+
 int lcs2(int *a, int n,  int *b, int m) {
-	//write your code here
-	return 0;
+	printf("Here");
+	int** arr = malloc(sizeof(int *) * (n + 1));
+	for(int i = 0; i < n + 1; i++)
+		arr[i] = malloc(sizeof(int) * (m + 1));
+	printf("done malloc");	
+	//fill 1st rows/cols with 0
+	for(int i = 0; i < n + 1; i++)
+		arr[i][0] = 0;
+	for(int i = 0; i < m + 1; i++)
+		arr[0][i] = 0;
+	printf("done filling initials");
+	
+	//fill others
+	for(int j = 0; j < n + 1; j++)
+		for(int k = 0; k < m + 1; k++){
+			//printf("here1");
+			/*if(j == 0 || k == 0){
+				arr[j][k] = 0;
+				break;
+			}*/
+			printf("here2");
+			int val = 0;
+			if(a[j] == b[k])
+				val = arr[j - 1][k - 1] + 1;
+			if(val > arr[j][k - 1] && val > arr[j - 1][k])
+				arr[j][k] = val;
+			else if(arr[j][k - 1] > val && arr[j][k - 1] > arr[j - 1][k])
+				arr[j][k] = arr[j][k - 1];
+			else
+				arr[j][k] = arr[j - 1][k];
+			
+		}
+	int x = arr[n][m];
+	for(int i = 0; i < n + 1; i++)
+		free(arr[i]);
+	free(arr);
+	return x;
 }
 
 int main() {
@@ -42,7 +78,7 @@ int main() {
 	print_array(a, n);
 	print_array(b, m);
 	fflush(stdout);
-	
+	printf("here");	
 	int lcs = lcs2(a, n, b, m);
 	printf("LCS = %d\n",lcs);
 	
