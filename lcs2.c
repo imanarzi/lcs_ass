@@ -8,32 +8,36 @@ void print_array(int *arr, int size){
 	printf("\n");
 }
 
+void print_2d(int ** arr, int a, int b){
+	for(int j = 0; j < a; j++){
+		for (int i=0; i<b; i++){
+                	printf("%d ",arr[j][i]);
+        	}
+        	printf("\n");
+	}
+}
 
 int lcs2(int *a, int n,  int *b, int m) {
-	printf("Here");
 	int** arr = malloc(sizeof(int *) * (n + 1));
 	for(int i = 0; i < n + 1; i++)
 		arr[i] = malloc(sizeof(int) * (m + 1));
-	printf("done malloc");	
-	//fill 1st rows/cols with 0
 	for(int i = 0; i < n + 1; i++)
 		arr[i][0] = 0;
 	for(int i = 0; i < m + 1; i++)
 		arr[0][i] = 0;
-	printf("done filling initials");
 	
 	//fill others
-	for(int j = 0; j < n + 1; j++)
-		for(int k = 0; k < m + 1; k++){
-			//printf("here1");
+	for(int j = 1; j < n + 1; j++)
+		for(int k = 1; k < m + 1; k++){
 			/*if(j == 0 || k == 0){
 				arr[j][k] = 0;
 				break;
 			}*/
-			printf("here2");
 			int val = 0;
-			if(a[j] == b[k])
+			if(a[j - 1] == b[k - 1]){
 				val = arr[j - 1][k - 1] + 1;
+			//	printf("j = %d k = %d val = %d\n", j, k, val);
+			}
 			if(val > arr[j][k - 1] && val > arr[j - 1][k])
 				arr[j][k] = val;
 			else if(arr[j][k - 1] > val && arr[j][k - 1] > arr[j - 1][k])
@@ -42,10 +46,13 @@ int lcs2(int *a, int n,  int *b, int m) {
 				arr[j][k] = arr[j - 1][k];
 			
 		}
+	//print_2d(arr, n + 1, m + 1);
 	int x = arr[n][m];
 	for(int i = 0; i < n + 1; i++)
 		free(arr[i]);
 	free(arr);
+	free(a);
+	free(b);
 	return x;
 }
 
@@ -78,7 +85,7 @@ int main() {
 	print_array(a, n);
 	print_array(b, m);
 	fflush(stdout);
-	printf("here");	
+	
 	int lcs = lcs2(a, n, b, m);
 	printf("LCS = %d\n",lcs);
 	
