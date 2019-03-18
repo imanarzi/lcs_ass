@@ -26,17 +26,11 @@ int lcs2(int *a, int n,  int *b, int m) {
 	for(int i = 0; i < m + 1; i++)
 		arr[0][i] = 0;
 	
-	//fill others
 	for(int j = 1; j < n + 1; j++)
 		for(int k = 1; k < m + 1; k++){
-			/*if(j == 0 || k == 0){
-				arr[j][k] = 0;
-				break;
-			}*/
 			int val = 0;
 			if(a[j - 1] == b[k - 1]){
 				val = arr[j - 1][k - 1] + 1;
-			//	printf("j = %d k = %d val = %d\n", j, k, val);
 			}
 			if(val > arr[j][k - 1] && val > arr[j - 1][k])
 				arr[j][k] = val;
@@ -46,7 +40,6 @@ int lcs2(int *a, int n,  int *b, int m) {
 				arr[j][k] = arr[j - 1][k];
 			
 		}
-	//print_2d(arr, n + 1, m + 1);
 	int x = arr[n][m];
 	for(int i = 0; i < n + 1; i++)
 		free(arr[i]);
